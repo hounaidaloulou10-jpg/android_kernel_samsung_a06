@@ -10,18 +10,17 @@ jobs:
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
         with:
-          depth: 1
+          fetch-depth: 1
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev python3 git curl zip unzip cpio lz4
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev python3 git curl zip unzip cpio lz4 gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
 
       - name: Download Clang Toolchain
         run: |
           mkdir -p clang
-          curl -L https://github.com -o clang.tar.gz
-          tar -xzf clang.tar.gz -C clang
+          git clone --depth=1 https://gitlab.com clang
 
       - name: Integrate KernelSU & Enable KALLSYMS
         run: |
